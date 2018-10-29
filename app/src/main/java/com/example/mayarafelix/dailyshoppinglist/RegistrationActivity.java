@@ -49,13 +49,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.activity_main_signup_link) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            launchMainActivity();
         } else if (v.getId() == R.id.activity_registration_button) {
-            registerUser(v);
+            registerUser();
         }
     }
 
-    private void registerUser(View v) {
+    private void registerUser() {
         final String email = emailView.getText().toString().trim();
         final String password = passwordView.getText().toString().trim();
 
@@ -76,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    launchHomeActivity();
                     Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 } else {
@@ -85,5 +85,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         });
+    }
+
+    private void launchMainActivity() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
+
+    private void launchHomeActivity() {
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
     }
 }
