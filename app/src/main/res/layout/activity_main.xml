@@ -28,7 +28,7 @@
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/activity_main_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_main_margin"
@@ -40,7 +40,7 @@
                 android:textColorHint="@android:color/white" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/activity_main_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/activity_main_edittext_background"
@@ -51,7 +51,7 @@
                 android:textColorHint="@android:color/white" />
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/activity_main_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_main_margin"
@@ -63,7 +63,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/signup_link"
+                android:id="@+id/activity_main_signup_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
