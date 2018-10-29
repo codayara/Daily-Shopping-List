@@ -6,6 +6,7 @@
     android:background="@drawable/activity_main_background"
     android:gravity="center"
     android:orientation="vertical"
+    android:padding="@dimen/activity_main_layout_padding"
     tools:context=".RegistrationActivity">
 
     <ScrollView
@@ -18,9 +19,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/activity_registration_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_main_header_margin_bottom"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/activity_registration_title"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -56,7 +60,7 @@
                 android:layout_marginTop="@dimen/activity_main_margin"
                 android:layout_marginBottom="@dimen/activity_main_margin_small"
                 android:background="@drawable/activity_main_button_background"
-                android:text="@string/activity_main_login_button_text"
+                android:text="@string/activity_registration_button"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorLoginButtonStroke"
                 android:textStyle="bold" />
