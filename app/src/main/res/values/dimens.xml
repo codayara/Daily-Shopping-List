@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main Activity -->
+    <dimen name="activity_main_layout_padding">20dp</dimen>
+    <dimen name="activity_main_header_margin_bottom">20dp</dimen>
+    <dimen name="activity_main_margin">10dp</dimen>
+    <dimen name="activity_main_margin_small">5dp</dimen>
+</resources>
