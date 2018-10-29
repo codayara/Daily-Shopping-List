@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, OnCompleteListener {
 
     private EditText emailView;
     private EditText passwordView;
@@ -44,18 +43,33 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         // Click Listeners
         signInLinkView.setOnClickListener(this);
         registrationButton.setOnClickListener(this);
+
+        // Focus
+        setFocusToTitle();
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.activity_main_signup_link) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        if (v.getId() == R.id.activity_registration_signin_link) {
+            launchMainActivity();
         } else if (v.getId() == R.id.activity_registration_button) {
-            registerUser(v);
+            registerUser();
         }
     }
 
-    private void registerUser(View v) {
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            launchHomeActivity();
+            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+        } else {
+            Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+        }
+    }
+
+    private void registerUser() {
         final String email = emailView.getText().toString().trim();
         final String password = passwordView.getText().toString().trim();
 
@@ -72,18 +86,21 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog.setMessage("Processing...");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-            }
-        });
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this);
+    }
+
+    private void launchMainActivity() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
+
+    private void launchHomeActivity() {
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    }
+
+    private void setFocusToTitle() {
+        final TextView titleView = findViewById(R.id.activity_registration_title);
+        if (titleView != null) {
+            titleView.requestFocus();
+        }
     }
 }
