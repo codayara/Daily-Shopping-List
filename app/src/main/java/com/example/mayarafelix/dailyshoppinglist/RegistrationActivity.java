@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, OnCompleteListener {
 
     private EditText emailView;
     private EditText passwordView;
@@ -44,6 +43,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         // Click Listeners
         signInLinkView.setOnClickListener(this);
         registrationButton.setOnClickListener(this);
+
+        // Focus
+        setFocusToTitle();
     }
 
     @Override
@@ -52,6 +54,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             launchMainActivity();
         } else if (v.getId() == R.id.activity_registration_button) {
             registerUser();
+        }
+    }
+
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            launchHomeActivity();
+            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+        } else {
+            Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         }
     }
 
@@ -72,19 +86,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog.setMessage("Processing...");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    launchHomeActivity();
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-            }
-        });
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this);
     }
 
     private void launchMainActivity() {
@@ -93,5 +95,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private void launchHomeActivity() {
         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+    }
+
+    private void setFocusToTitle() {
+        final TextView titleView = findViewById(R.id.activity_registration_title);
+        if (titleView != null) {
+            titleView.requestFocus();
+        }
     }
 }
