@@ -1,18 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/activity_main_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_main_layout_padding"
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="@dimen/activity_main_header_margin_bottom"
+        android:gravity="center"
+        android:text="@string/activity_main_title"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/white" />
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_main_margin"
+        android:background="@drawable/activity_main_edittext_background"
+        android:hint="@string/activity_main_email_hint"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/activity_main_margin"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_main_edittext_background"
+        android:hint="@string/activity_main_password_hint"
+        android:inputType="textPassword"
+        android:padding="@dimen/activity_main_margin"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_main_margin"
+        android:layout_marginBottom="@dimen/activity_main_margin_small"
+        android:background="@drawable/activity_main_button_background"
+        android:text="@string/activity_main_login_button_text"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorLoginButtonStroke"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signup_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/activity_main_margin_small"
+        android:text="@string/activity_main_signup_text"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@android:color/white" />
+</LinearLayout>

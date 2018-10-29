@@ -1,3 +1,11 @@
 <resources>
+    <!-- General -->
     <string name="app_name">Daily Shopping List</string>
+
+    <!-- Main Activity -->
+    <string name="activity_main_title">Log In</string>
+    <string name="activity_main_email_hint">Email</string>
+    <string name="activity_main_password_hint">Password</string>
+    <string name="activity_main_login_button_text">Password</string>
+    <string name="activity_main_signup_text">Don\'t have an account? Sign up here</string>
 </resources>
