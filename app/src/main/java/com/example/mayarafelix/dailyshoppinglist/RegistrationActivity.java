@@ -48,7 +48,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.activity_main_signup_link) {
+        if (v.getId() == R.id.activity_registration_signin_link) {
             launchMainActivity();
         } else if (v.getId() == R.id.activity_registration_button) {
             registerUser();
@@ -77,7 +77,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     launchHomeActivity();
-                    Toast.makeText(getApplicationContext(), "Successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
