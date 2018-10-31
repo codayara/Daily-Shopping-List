@@ -10,11 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.mayarafelix.dailyshoppinglist.model.Data;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private DatabaseReference database;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +37,12 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Daily Shopping List");
 
-        fab = findViewById(R.id.activity_home_fab);
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String id = firebaseUser.getUid();
+        database = FirebaseDatabase.getInstance().getReference().child("Shopping List");
 
+        fab = findViewById(R.id.activity_home_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
                 String amount = amountView.getText().toString().trim();
                 String note = noteView.getText().toString().trim();
 
+                int amountInt = Integer.parseInt(amount);
+
                 if (TextUtils.isEmpty(type)) {
                     typeView.setError("Required Field");
                     return;
@@ -71,6 +89,16 @@ public class HomeActivity extends AppCompatActivity {
                     noteView.setError("Required Field");
                     return;
                 }
+
+                String id = database.push().getKey();
+                String date = DateFormat.getDateInstance().format(new Date());
+
+                Data data = new Data(id, type, amountInt, note, date);
+
+                database.child(id).setValue(data);
+                
+                Toast.makeText(getApplicationContext(), "Data Added", Toast.LENGTH_SHORT).show();
+
             }
         });
 
