@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="16 Sep, 2018"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textAppearance="?android:textAppearanceSmall"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:maxLines="1"
+                android:textAppearance="?android:textAppearanceMedium"/>
+
+            <TextView
+                android:id="@+id/item_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Note"
+                android:maxLines="1"
+                android:layout_below="@id/item_type"
+                android:textAppearance="?android:textAppearanceSmall"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center|">
+            <TextView
+                android:id="@+id/item_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="500"
+                android:maxLines="1"
+                android:textAppearance="?android:textAppearanceSmall"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
