@@ -1,5 +1,6 @@
 package com.example.mayarafelix.dailyshoppinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +40,12 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private RecyclerView recyclerView;
     private TextView totalAmountView;
+
+    // Global Variable
+    private String type;
+    private int amount;
+    private String note;
+    private String postKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
 
         // FAB
 
@@ -151,17 +160,89 @@ public class HomeActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void launchUpdateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        LayoutInflater inflater = LayoutInflater.from(HomeActivity.this);
+        View view = inflater.inflate(R.layout.update_input, null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.setView(view);
+
+        // Get Views
+
+        final EditText typeView = view.findViewById(R.id.input_data_type);
+        final EditText amountView = view.findViewById(R.id.input_data_amount);
+        final EditText noteView = view.findViewById(R.id.input_data_note);
+
+        Button buttonUpdate = view.findViewById(R.id.btn_update);
+        Button buttonDelete = view.findViewById(R.id.btn_delete);
+
+        // Set Views
+
+        typeView.setText(type);
+        typeView.setSelection(type.length());
+        amountView.setText(String.valueOf(amount));
+        noteView.setText(note);
+
+        // Set Click Listeners
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                type = typeView.getText().toString().trim();
+
+                String amount = amountView.getText().toString().trim();
+
+                note = noteView.getText().toString().trim();
+
+                int intAmount = Integer.parseInt(amount);
+                String date = DateFormat.getDateInstance().format(new Date());
+
+                Data data = new Data(postKey, type, intAmount, note, date);
+
+                database.child(postKey).setValue(data);
+
+                dialog.dismiss();
+
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                database.child(postKey).removeValue();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         FirebaseRecyclerAdapter<Data, MyViewHolder> adapter = new FirebaseRecyclerAdapter<Data, MyViewHolder>(Data.class, R.layout.item_data, MyViewHolder.class, database) {
             @Override
-            protected void populateViewHolder(MyViewHolder viewHolder, Data model, int position) {
+            protected void populateViewHolder(MyViewHolder viewHolder, final Data model, final int position) {
                 viewHolder.setDate(model.getDate());
                 viewHolder.setType(model.getType());
                 viewHolder.setNote(model.getNote());
                 viewHolder.setAmount(model.getAmount());
+
+                viewHolder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        postKey = getRef(position).getKey();
+                        type = model.getType();
+                        note = model.getNote();
+                        amount = model.getAmount();
+
+                        launchUpdateDialog();
+                    }
+                });
             }
         };
 
@@ -199,5 +280,20 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.log_out:
+                firebaseAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
